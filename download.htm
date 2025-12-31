@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" style="background-color: #000000 !important;">
+<head>
+    <meta charset="UTF-8">
+    <title>YT GUIDE | HM</title>
+    <style>
+        /* CORE RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
+        
+        html, body {
+            color: white;
+            font-family: 'Impact', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            background-color: black;
+        }
+
+        /* --- FLASHING YT BACKGROUND SECTION --- */
+        #bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: #000;
+            overflow: hidden;
+        }
+
+        /* The "Strobe" Flash */
+        .flash-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(255,0,0,0.15) 0%, rgba(0,0,0,0) 70%);
+            animation: strobe 0.2s infinite;
+            pointer-events: none;
+        }
+
+        /* Scanlines for that "Monitor" look */
+        .scanlines {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(255, 0, 0, 0.05) 51%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        @keyframes strobe {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* Moving Red Gradient Beam */
+        .beam {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255,0,0,0.3), transparent 40%);
+            animation: rotate 10s linear infinite;
+            top: -50%; left: -50%;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        /* --------------------------------------- */
+
+        /* CUSTOM CROSSHAIR */
+        #cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ff0000;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s;
+            box-shadow: 0 0 15px #ff0000;
+        }
+
+        #cursor-dot {
+            width: 4px;
+            height: 4px;
+            background: #ff0000;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* FLOATING TEXT ANIMATION */
+        h1 {
+            font-size: clamp(3rem, 10vw, 8rem);
+            text-shadow: 0 0 25px #ff0000;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            animation: glitch 3s infinite;
+            position: relative;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); text-shadow: 0 0 20px #ff0000; }
+            2% { transform: translate(-5px, 2px); text-shadow: 2px 0 red, -2px 0 blue; }
+            4% { transform: translate(5px, -2px); text-shadow: -2px 0 red, 2px 0 blue; }
+            6% { transform: translate(0); }
+            100% { transform: translate(0); }
+        }
+
+        /* BUTTON DESIGN */
+        .btn-container { margin-top: 40px; display: flex; gap: 20px; }
+        
+        .btn {
+            padding: 18px 40px;
+            border: 2px solid #ff0000;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .btn:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 0 30px #ff0000;
+            background: #ff0000;
+        }
+
+        .pricing-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 50px auto 0;
+        }
+
+        .card {
+            background: rgba(10, 10, 10, 0.9);
+            padding: 50px 30px;
+            border: 1px solid #222;
+            width: 320px;
+            transition: 0.5s;
+            position: relative;
+        }
+
+        .card:hover {
+            border-color: #ff0000;
+            transform: translateY(-20px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(255, 0, 0, 0.3);
+            background: #111;
+        }
+
+        .price-tag {
+            font-size: 4rem;
+            color: #ff0000;
+            margin: 20px 0;
+            text-shadow: 0 0 10px rgba(255,0,0,0.5);
+        }
+
+        section { scroll-margin-top: 20px; }
+
+    </style>
+</head>
+<body style="background-color: #000000 !important; margin: 0; padding: 0;">
+
+    <div id="bg-container">
+        <div class="beam"></div>
+        <div class="flash-overlay"></div>
+        <div class="scanlines"></div>
+    </div>
+
+    <div id="cursor"></div>
+    <div id="cursor-dot"></div>
+
+    <div id="home" style="height: 100vh; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; background: transparent !important;">
+        <h1>BLUEPRINT</h1>
+        <p style="color: #ccc; font-family: sans-serif; margin: 20px 0; max-width: 550px; font-size: 1.1rem; letter-spacing: 1px; text-shadow: 1px 1px 2px black;">
+            Stop being a beginner. Start being a creator. We find your niche, build your brand, and teach you to edit like a <span style="color: red; font-weight: bold;">professional.</span>
+        </p>
+
+        <div class="btn-container">
+            <a href="#pricing" class="btn" style="background: #ff0000;">View Packages</a>
+            <a href="portfolio.html" class="btn">Explore Archives</a>
+            <a href="about.html" class="btn">About Us</a>
+        </div>
+    </div>
+
+    <div id="pricing" style="background-color: rgba(5, 5, 5, 0.8) !important; padding: 100px 20px; text-align: center; border-top: 3px solid #ff0000; position: relative; z-index: 1;">
+        <h2 style="font-size: 4rem; text-transform: uppercase; color: #fff; text-shadow: 0 0 10px red;">PRICING</h2>
+        
+        <div class="pricing-wrap">
+            <div class="card">
+                <h3>VISUALS</h3>
+                <div class="price-tag">$0.99</div>
+                <ul style="text-align: left; color: #aaa; line-height: 2; list-style: none;">
+                    <li>✓ Engaging Banner</li>
+                    <li>✓ Professional PFP</li>
+                </ul>
+                <a href="mailto:hmdnmurtaza@gmail.com" class="btn" style="display: block; margin-top: 30px; padding: 10px;">ORDER</a>
+            </div>
+
+            <div class="card">
+                <h3>IDENTITY</h3>
+                <div class="price-tag">$2.00</div>
+                <ul style="text-align: left; color: #aaa; line-height: 2; list-style: none;">
+                    <li>✓ Banner & PFP</li>
+                    <li>✓ 20+ Target Channels</li>
+                </ul>
+                <a href="mailto:hmdnmurtaza@gmail.com" class="btn" style="display: block; margin-top: 30px; padding: 10px;">ORDER</a>
+            </div>
+
+            <div class="card" style="border: 2px solid #ff0000;">
+                <h3 style="color: #ff0000;">THE PACK</h3>
+                <div class="price-tag">$4.99</div>
+                <ul style="text-align: left; color: #aaa; line-height: 2; list-style: none;">
+                    <li>✓ Everything Above</li>
+                    <li>✓ Editing Guides</li>
+                </ul>
+                <a href="mailto:hmdnmurtaza@gmail.com" class="btn" style="display: block; margin-top: 30px; padding: 10px; background: #ff0000;">ORDER NOW</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const cursor = document.querySelector('#cursor');
+        const dot = document.querySelector('#cursor-dot');
+
+        window.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            dot.style.left = e.clientX + 'px';
+            dot.style.top = e.clientY + 'px';
+        });
+
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('mouseenter', () => cursor.style.transform = 'scale(2)');
+            link.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
+        });
+    </script>
+
+</body>
+</html>
