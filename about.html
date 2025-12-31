@@ -5,13 +5,19 @@
     <title>ABOUT | HM ENTERPRISES</title>
     <style>
         /* CORE RESET */
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* Hide default cursor ONLY on devices with a mouse */
+        @media (pointer: fine) {
+            * { cursor: none !important; }
+        }
         
         html, body {
             color: white;
             font-family: 'Impact', sans-serif;
             background-color: black;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         /* --- BACKGROUND EFFECTS --- */
@@ -48,7 +54,7 @@
         }
 
         h1 {
-            font-size: clamp(3rem, 8vw, 5rem);
+            font-size: clamp(2.5rem, 8vw, 5rem);
             text-shadow: 0 0 20px #ff0000;
             margin-bottom: 30px;
             text-transform: uppercase;
@@ -58,8 +64,8 @@
         }
 
         h2 {
-            color: #ff0000; /* Red Headers */
-            font-size: 2.2rem;
+            color: #ff0000;
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
             margin: 50px 0 20px;
             text-transform: uppercase;
             border-bottom: 2px solid #ff0000;
@@ -70,13 +76,13 @@
         .content-box {
             background: rgba(5, 5, 5, 0.95);
             border: 1px solid #ff000033;
-            padding: 40px;
-            font-family: 'Arial', sans-serif; /* Clean font for readability */
+            padding: clamp(20px, 5vw, 40px);
+            font-family: 'Arial', sans-serif;
             letter-spacing: 0.5px;
             box-shadow: 0 0 30px rgba(255, 0, 0, 0.1);
         }
 
-        p { margin-bottom: 25px; color: #ffffff; font-size: 1.15rem; }
+        p { margin-bottom: 25px; color: #ffffff; font-size: 1.1rem; }
 
         /* LIST STYLING */
         ul { list-style: none; margin-bottom: 30px; }
@@ -85,17 +91,16 @@
             padding-left: 30px; 
             position: relative; 
             color: #ffffff;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
         }
         li::before {
-            content: '🔴'; /* Red bullet */
+            content: '🔴';
             position: absolute;
             left: 0;
             font-size: 0.8rem;
             top: 4px;
         }
 
-        /* HIGHLIGHTS */
         .red-text { color: #ff0000; font-weight: bold; text-transform: uppercase; }
         .white-bold { color: #ffffff; font-weight: bold; border-bottom: 1px solid #ff0000; }
 
@@ -119,15 +124,22 @@
             transform: scale(1.1);
         }
 
-        /* CROSSHAIR */
-        #cursor {
-            width: 20px; height: 20px; border: 2px solid #ff0000;
-            border-radius: 50%; position: fixed; pointer-events: none;
-            z-index: 9999; transition: transform 0.1s; box-shadow: 0 0 15px #ff0000;
-        }
-        #cursor-dot {
-            width: 4px; height: 4px; background: #ff0000;
-            border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999;
+        /* CROSSHAIR - HIDDEN BY DEFAULT */
+        #cursor, #cursor-dot { display: none; }
+
+        /* SHOW ONLY ON PC */
+        @media (pointer: fine) {
+            #cursor {
+                display: block;
+                width: 20px; height: 20px; border: 2px solid #ff0000;
+                border-radius: 50%; position: fixed; pointer-events: none;
+                z-index: 9999; transition: transform 0.1s; box-shadow: 0 0 15px #ff0000;
+            }
+            #cursor-dot {
+                display: block;
+                width: 4px; height: 4px; background: #ff0000;
+                border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999;
+            }
         }
     </style>
 </head>
@@ -159,39 +171,19 @@
                 <li>Recommendations based on your skill level and budget</li>
                 <li>Simple explanations — <span class="white-bold">no confusing tech terms</span></li>
             </ul>
-            <p>Everything is structured so beginners can understand and apply it immediately.</p>
 
             <h2>What I Help You With</h2>
-            
             <p><span class="red-text">🎯 Profile Picture (PFP) & Banner Guidance</span><br>
-            Learn what makes a profile picture and banner professional, clickable, and brand-consistent.</p>
+            Learn what makes a profile picture and banner professional and clickable.</p>
             
             <p><span class="red-text">🎬 Video Editing Software Guidance</span><br>
-            From free to professional tools — I help you choose the right editing software for your PC and your content style.</p>
+            From free to professional tools — I help you choose the right software for your style.</p>
             
             <p><span class="red-text">🎥 Content & Channel Setup Advice</span><br>
-            How to structure your channel, videos, and visuals so you look serious from the start.</p>
-            
-            <p><span class="red-text">🧠 Beginner-Friendly Explanations</span><br>
-            Everything is explained in a simple, practical way — <span class="white-bold">no fake promises, no confusion.</span></p>
-
-            <h2>Why Choose HM Enterprises in 2026?</h2>
-            <p>In 2026, standing out online isn’t optional — <span class="red-text">it’s required.</span></p>
-            <ul>
-                <li>It focuses on <span class="white-bold">long-term growth</span>, not shortcuts</li>
-                <li>It’s built for beginners who want to look professional</li>
-                <li>It combines branding, tools, and guidance in one place</li>
-                <li>Created by someone who understands the <span class="red-text">struggles of starting from zero</span></li>
-            </ul>
-
-            <p style="font-size: 1.4rem; text-align: center; margin-top: 30px; font-family: 'Impact'; letter-spacing: 2px;">
-                THIS ISN’T JUST ADVICE — <span class="red-text">IT’S A FOUNDATION.</span>
-            </p>
+            How to structure your channel and visuals so you look serious from the start.</p>
 
             <h2>Our Mission</h2>
             <p>The mission of HM Enterprises is simple: <span class="red-text">To help creators start smart, build confidently, and grow with purpose.</span></p>
-            
-            <p>If you’re starting out and want a clear path instead of confusion, <span class="red-text">HM Enterprises</span> is where your journey begins.</p>
         </div>
 
         <div style="text-align: center;">
@@ -203,17 +195,19 @@
         const cursor = document.querySelector('#cursor');
         const dot = document.querySelector('#cursor-dot');
 
-        window.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            dot.style.left = e.clientX + 'px';
-            dot.style.top = e.clientY + 'px';
-        });
+        if (window.matchMedia("(pointer: fine)").matches) {
+            window.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                dot.style.left = e.clientX + 'px';
+                dot.style.top = e.clientY + 'px';
+            });
 
-        document.querySelectorAll('a').forEach(link => {
-            link.addEventListener('mouseenter', () => cursor.style.transform = 'scale(2)');
-            link.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
-        });
+            document.querySelectorAll('a').forEach(link => {
+                link.addEventListener('mouseenter', () => cursor.style.transform = 'scale(2)');
+                link.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
+            });
+        }
     </script>
 
 </body>
