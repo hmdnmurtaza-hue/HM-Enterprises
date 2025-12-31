@@ -5,65 +5,103 @@
     <title>ARCHIVES | DEMON MODE</title>
     <style>
         /* FORCE EVERYTHING TO BLACK */
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* Disable real cursor ONLY on devices with a mouse */
+        @media (pointer: fine) {
+            * { cursor: none !important; }
+        }
         
         html, body {
             background-color: #000 !important;
             background: #000 !important;
-            overflow: hidden;
+            overflow-x: hidden;
             font-family: 'Impact', sans-serif;
-            width: 100vw;
-            height: 100vh;
-        }
-
-        /* NO GRADIENTS, NO TINT - JUST BLACK */
-        #bg-master {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0;
-            background: #000 !important;
-            pointer-events: none;
+            width: 100%;
+            min-height: 100vh;
         }
 
         /* --- CONTENT LAYER --- */
         .content-wrap {
             position: relative;
             z-index: 10;
-            height: 100vh;
+            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding-bottom: 100px; /* Space for return button */
         }
 
-        /* CUSTOM CROSSHAIR - STILL WORKING */
-        #cursor {
-            width: 22px; height: 22px;
-            border: 2px solid #ff0000;
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10000;
-            transition: transform 0.1s;
-            box-shadow: 0 0 15px #ff0000;
-            transform: translate(-50%, -50%);
+        /* CUSTOM CROSSHAIR - HIDDEN BY DEFAULT */
+        #cursor, #cursor-dot { display: none; }
+
+        /* ONLY SHOW CROSSHAIR ON PC */
+        @media (pointer: fine) {
+            #cursor {
+                display: block;
+                width: 22px; height: 22px;
+                border: 2px solid #ff0000;
+                border-radius: 50%;
+                position: fixed;
+                pointer-events: none;
+                z-index: 10000;
+                transition: transform 0.1s;
+                box-shadow: 0 0 15px #ff0000;
+                transform: translate(-50%, -50%);
+            }
+            #cursor-dot {
+                display: block;
+                width: 5px; height: 5px;
+                background: #ff0000;
+                border-radius: 50%;
+                position: fixed;
+                pointer-events: none;
+                z-index: 10001;
+                transform: translate(-50%, -50%);
+            }
         }
-        #cursor-dot {
-            width: 5px; height: 5px;
-            background: #ff0000;
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10001;
-            transform: translate(-50%, -50%);
+
+        .gallery-container {
+            position: relative; 
+            width: 100%; 
+            max-width: 1200px;
+            height: 70vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            margin-top: 20px;
         }
 
         .archive-item {
             transition: all 0.3s ease;
+            cursor: pointer; /* Fallback for mobile */
         }
+        
         .archive-item:hover {
             transform: scale(1.05) rotate(0deg) !important;
             box-shadow: 0 0 50px #ff0000 !important;
             border-color: #fff !important;
+            z-index: 50;
+        }
+
+        /* Mobile specific gallery adjustment */
+        @media (max-width: 768px) {
+            .gallery-container {
+                height: auto;
+                flex-direction: column;
+                gap: 20px;
+                padding: 40px 0;
+            }
+            .archive-item {
+                position: relative !important;
+                left: auto !important;
+                right: auto !important;
+                top: auto !important;
+                bottom: auto !important;
+                transform: rotate(0deg) !important;
+                width: 80% !important;
+                max-width: 300px;
+            }
         }
 
         .btn-return {
@@ -78,30 +116,32 @@
 </head>
 <body>
 
-    <div id="bg-master"></div>
-
     <div class="content-wrap">
-        <h1 style="margin-top: 40px; font-size: 5rem; color: white; text-shadow: 0 0 20px #ff0000; letter-spacing: 15px; text-transform: uppercase;">Archives</h1>
+        <h1 style="margin-top: 40px; font-size: clamp(3rem, 10vw, 5rem); color: white; text-shadow: 0 0 20px #ff0000; letter-spacing: 15px; text-transform: uppercase;">Archives</h1>
 
-        <div style="position: relative; width: 100%; height: 70vh; display: flex; justify-content: center; align-items: center;">
-            <div class="archive-item" style="position: absolute; width: 320px; border: 4px solid #ff0000; box-shadow: 0 0 40px #ff0000; background: #000;" onclick="openZoom(this)">
+        <div class="gallery-container">
+            <div class="archive-item" style="position: absolute; width: 320px; border: 4px solid #ff0000; box-shadow: 0 0 40px #ff0000; background: #000; z-index: 5;" onclick="openZoom(this)">
                 <img src="football_blueprint.png" style="width: 100%; display: block;">
             </div>
+            
             <div class="archive-item" style="position: absolute; width: 180px; top: 10%; left: 15%; border: 2px solid #ff0000; transform: rotate(-8deg); background: #000;" onclick="openZoom(this)">
                 <img src="rythm_bot.png" style="width: 100%; display: block;">
             </div>
+            
             <div class="archive-item" style="position: absolute; width: 180px; top: 5%; right: 15%; border: 2px solid #ff0000; transform: rotate(8deg); background: #000;" onclick="openZoom(this)">
                 <img src="subscribe_button.png" style="width: 100%; display: block;">
             </div>
+            
             <div class="archive-item" style="position: absolute; width: 180px; bottom: 10%; left: 15%; border: 2px solid #ff0000; transform: rotate(5deg); background: #000;" onclick="openZoom(this)">
                 <img src="kc_star_logo.png" style="width: 100%; display: block;">
             </div>
+            
             <div class="archive-item" style="position: absolute; width: 220px; bottom: 5%; right: 15%; border: 2px solid #ff0000; transform: rotate(-5deg); background: #000;" onclick="openZoom(this)">
                 <img src="software_guidance.png" style="width: 100%; display: block;">
             </div>
         </div>
 
-        <a href="index.html" class="btn-return" style="position: fixed; bottom: 40px; padding: 15px 40px; border: 2px solid #ff0000; color: white; text-decoration: none; text-transform: uppercase; font-weight: bold; z-index: 100;">Return to Hub</a>
+        <a href="index.html" class="btn-return" style="position: fixed; bottom: 20px; padding: 15px 40px; border: 2px solid #ff0000; color: white; text-decoration: none; text-transform: uppercase; font-weight: bold; z-index: 100; font-family: 'Impact'; letter-spacing: 2px;">Return to Hub</a>
     </div>
 
     <div id="zoomBox" onclick="closeZoom()" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 9999; justify-content: center; align-items: center;">
@@ -115,12 +155,20 @@
         const cursor = document.getElementById('cursor');
         const dot = document.getElementById('cursor-dot');
 
-        window.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            dot.style.left = e.clientX + 'px';
-            dot.style.top = e.clientY + 'px';
-        });
+        // Logic for cursor only on PC
+        if (window.matchMedia("(pointer: fine)").matches) {
+            window.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                dot.style.left = e.clientX + 'px';
+                dot.style.top = e.clientY + 'px';
+            });
+
+            document.querySelectorAll('.archive-item, .btn-return').forEach(item => {
+                item.addEventListener('mouseenter', () => cursor.style.transform = 'translate(-50%, -50%) scale(1.8)');
+                item.addEventListener('mouseleave', () => cursor.style.transform = 'translate(-50%, -50%) scale(1)');
+            });
+        }
 
         function openZoom(div) {
             const imgSrc = div.getElementsByTagName('img')[0].src;
@@ -130,11 +178,6 @@
         function closeZoom() {
             document.getElementById('zoomBox').style.display = 'none';
         }
-
-        document.querySelectorAll('.archive-item, .btn-return').forEach(item => {
-            item.addEventListener('mouseenter', () => cursor.style.transform = 'translate(-50%, -50%) scale(1.8)');
-            item.addEventListener('mouseleave', () => cursor.style.transform = 'translate(-50%, -50%) scale(1)');
-        });
     </script>
 </body>
 </html>
