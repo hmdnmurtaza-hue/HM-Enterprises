@@ -5,8 +5,13 @@
     <title>YT GUIDE | HM</title>
     <style>
         /* CORE RESET */
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
+        /* Disable real cursor only on devices with a mouse */
+        @media (pointer: fine) {
+            * { cursor: none !important; }
+        }
+
         html, body {
             color: white;
             font-family: 'Impact', sans-serif;
@@ -18,16 +23,10 @@
         /* --- FLASHING YT BACKGROUND SECTION --- */
         #bg-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: #000;
-            overflow: hidden;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; background: #000; overflow: hidden;
         }
 
-        /* The "Strobe" Flash */
         .flash-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -36,7 +35,6 @@
             pointer-events: none;
         }
 
-        /* Scanlines for that "Monitor" look */
         .scanlines {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -45,49 +43,51 @@
             pointer-events: none;
         }
 
-        @keyframes strobe {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { opacity: 0; }
-        }
+        @keyframes strobe { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
 
-        /* Moving Red Gradient Beam */
         .beam {
             position: absolute;
-            width: 200%;
-            height: 200%;
+            width: 200%; height: 200%;
             background: conic-gradient(from 0deg, transparent, rgba(255,0,0,0.3), transparent 40%);
             animation: rotate 10s linear infinite;
             top: -50%; left: -50%;
         }
 
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        /* --------------------------------------- */
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* CUSTOM CROSSHAIR */
-        #cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ff0000;
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s;
-            box-shadow: 0 0 15px #ff0000;
+        /* CUSTOM CROSSHAIR - HIDDEN BY DEFAULT */
+        #cursor, #cursor-dot {
+            display: none; 
         }
 
-        #cursor-dot {
-            width: 4px;
-            height: 4px;
-            background: #ff0000;
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
+        /* ONLY SHOW CROSSHAIR ON PC (Devices with a mouse) */
+        @media (pointer: fine) {
+            #cursor {
+                display: block;
+                width: 20px; height: 20px;
+                border: 2px solid #ff0000;
+                border-radius: 50%;
+                position: fixed;
+                pointer-events: none;
+                z-index: 9999;
+                transition: transform 0.1s;
+                box-shadow: 0 0 15px #ff0000;
+                /* Center the element on the actual mouse point */
+                margin-left: -10px;
+                margin-top: -10px;
+            }
+
+            #cursor-dot {
+                display: block;
+                width: 4px; height: 4px;
+                background: #ff0000;
+                border-radius: 50%;
+                position: fixed;
+                pointer-events: none;
+                z-index: 9999;
+                margin-left: -2px;
+                margin-top: -2px;
+            }
         }
 
         /* FLOATING TEXT ANIMATION */
@@ -110,7 +110,7 @@
         }
 
         /* BUTTON DESIGN */
-        .btn-container { margin-top: 40px; display: flex; gap: 20px; }
+        .btn-container { margin-top: 40px; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
         
         .btn {
             padding: 18px 40px;
@@ -165,7 +165,6 @@
         }
 
         section { scroll-margin-top: 20px; }
-
     </style>
 </head>
 <body style="background-color: #000000 !important; margin: 0; padding: 0;">
@@ -179,7 +178,7 @@
     <div id="cursor"></div>
     <div id="cursor-dot"></div>
 
-    <div id="home" style="height: 100vh; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; background: transparent !important;">
+    <div id="home" style="height: 100vh; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; background: transparent !important; padding: 0 20px;">
         <h1>BLUEPRINT</h1>
         <p style="color: #ccc; font-family: sans-serif; margin: 20px 0; max-width: 550px; font-size: 1.1rem; letter-spacing: 1px; text-shadow: 1px 1px 2px black;">
             Stop being a beginner. Start being a creator. We find your niche, build your brand, and teach you to edit like a <span style="color: red; font-weight: bold;">professional.</span>
@@ -232,17 +231,20 @@
         const cursor = document.querySelector('#cursor');
         const dot = document.querySelector('#cursor-dot');
 
-        window.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            dot.style.left = e.clientX + 'px';
-            dot.style.top = e.clientY + 'px';
-        });
+        // Only run JS if the device supports a mouse (pointer: fine)
+        if (window.matchMedia("(pointer: fine)").matches) {
+            window.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                dot.style.left = e.clientX + 'px';
+                dot.style.top = e.clientY + 'px';
+            });
 
-        document.querySelectorAll('a').forEach(link => {
-            link.addEventListener('mouseenter', () => cursor.style.transform = 'scale(2)');
-            link.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
-        });
+            document.querySelectorAll('a').forEach(link => {
+                link.addEventListener('mouseenter', () => cursor.style.transform = 'scale(2)');
+                link.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
+            });
+        }
     </script>
 
 </body>
